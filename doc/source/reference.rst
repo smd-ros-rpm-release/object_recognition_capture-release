@@ -1,0 +1,4 @@
+capture cells
+==============
+
+.. ectomodule:: capture
