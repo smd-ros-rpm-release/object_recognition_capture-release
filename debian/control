@@ -2,13 +2,13 @@ Source: ros-fuerte-object-recognition-capture
 Section: misc
 Priority: extra
 Maintainer: Vincent Rabaud/vrabaud@willowgarage.com, Vincent Rabaud <vrabaud@willowgarage.com>
-Build-Depends: debhelper (>= 7.0.50~), ros-fuerte-object-recognition-core,libboost-all-dev,ros-fuerte-ecto-openni,ros-fuerte-ecto-opencv,ros-fuerte-ecto,ros-fuerte-catkin,ros-fuerte-ecto-image-pipeline
+Build-Depends: debhelper (>= 7.0.50~), libboost1.46-all-dev,ros-fuerte-object-recognition-core,ros-fuerte-ecto-openni,ros-fuerte-ecto-opencv,ros-fuerte-ecto,ros-fuerte-catkin,ros-fuerte-ecto-image-pipeline
 Homepage: http://ecto.willowgarage.com/recognition
 Standards-Version: 3.9.2
 
 Package: ros-fuerte-object-recognition-capture
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}, ros-fuerte-object-recognition-core,libboost-all-dev,ros-fuerte-ecto-openni,ros-fuerte-ecto-opencv,ros-fuerte-ecto,ros-fuerte-ecto-image-pipeline
+Depends: ${shlibs:Depends}, ${misc:Depends}, libboost1.46-all-dev,ros-fuerte-object-recognition-core,ros-fuerte-ecto-openni,ros-fuerte-ecto-opencv,ros-fuerte-ecto,ros-fuerte-ecto-image-pipeline
 Description: Capture is a set of tools to capture objects in 3D and perform odometry
  .
  This stack contains the packages:
