@@ -1,8 +1,12 @@
 cmake_minimum_required(VERSION 2.8)
 project(object_recognition_capture)
 find_package(catkin QUIET)
+if (${catkin_VERSION} VERSION_GREATER "0.5.28")
+catkin_package()
+else()
 catkin_stack()
 catkin_project(object_recognition_capture)
+endif()
 
 add_definitions("-Wall -Werror -Wl,--no-undefined ")
 
@@ -31,11 +35,25 @@ endif()
 
 if (ROS_ELECTRIC_FOUND)
   set(${PROJECT_NAME}_BIN_INSTALL_DIR bin)
-else()
+endif()
+if (ROS_FUERTE_FOUND)
   set(${PROJECT_NAME}_BIN_INSTALL_DIR share/${PROJECT_NAME}/bin)
 endif()
 
 # install the applications
+if (ROS_GROOVY_OR_ABOVE_FOUND)
+install(PROGRAMS ${PROJECT_SOURCE_DIR}/apps/capture
+                 ${PROJECT_SOURCE_DIR}/apps/orb_template.py
+                 ${PROJECT_SOURCE_DIR}/apps/orb_track.py
+                 ${PROJECT_SOURCE_DIR}/apps/upload
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+ 
+install(DIRECTORY apps/capture_board apps/bagscripts
+        DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+        USE_SOURCE_PERMISSIONS
+)
+else()
 install(PROGRAMS ${PROJECT_SOURCE_DIR}/apps/capture
                  ${PROJECT_SOURCE_DIR}/apps/orb_template.py
                  ${PROJECT_SOURCE_DIR}/apps/orb_track.py
@@ -47,5 +65,6 @@ install(DIRECTORY apps/capture_board apps/bagscripts
         DESTINATION ${${PROJECT_NAME}_BIN_INSTALL_DIR}
         USE_SOURCE_PERMISSIONS
 )
+endif()
 
 #catkin_sphinx(${CMAKE_CURRENT_SOURCE_DIR}/doc doc)
