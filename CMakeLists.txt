@@ -33,9 +33,6 @@ if(BUILD_TEST)
   add_subdirectory(test)
 endif()
 
-if (ROS_ELECTRIC_FOUND)
-  set(${PROJECT_NAME}_BIN_INSTALL_DIR bin)
-endif()
 if (ROS_FUERTE_FOUND)
   set(${PROJECT_NAME}_BIN_INSTALL_DIR share/${PROJECT_NAME}/bin)
 endif()
@@ -64,6 +61,9 @@ install(PROGRAMS ${PROJECT_SOURCE_DIR}/apps/capture
 install(DIRECTORY apps/capture_board apps/bagscripts
         DESTINATION ${${PROJECT_NAME}_BIN_INSTALL_DIR}
         USE_SOURCE_PERMISSIONS
+)
+install(FILES ${PROJECT_SOURCE_DIR}/manifest.xml
+        DESTINATION share/${PROJECT_NAME}
 )
 endif()
 
