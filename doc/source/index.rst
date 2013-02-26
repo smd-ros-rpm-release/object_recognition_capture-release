@@ -1,5 +1,3 @@
-.. _ork_capture:
-
 object_recognition_capture: Data Capture
 ========================================
 
@@ -17,7 +15,7 @@ The first point is currently done with a textured pattern (a dot pattern or a cu
 
 The second point is currently done by segmenting out whatever is on top of the plane formed by the pattern.
 
-``capture`` uses the database infrastructure provided by ``object_recognition_core`` and ``object_recognition_capture`` to store the captured data.
+``capture`` uses the database infrastructure provided by ``object_recognition_core`` to store the captured data.
 
 3d Camera
 ---------
@@ -100,13 +98,13 @@ given, e.g. my_textured_plane. Press 'q' to quit the template capture program.
 
     .. code-block:: sh
 
-        ./apps/orb_template -o my_textured_plane
+        ./apps/orb_template.py -o my_textured_plane
 
 .. toggle:: ROS
 
     .. code-block:: sh
 
-        rosrun object_recognition_capture orb_template -o my_textured_plane
+        rosrun object_recognition_core orb_template.py -o my_textured_plane
 
 Try out tracking to see if you got a good template. Press 'q' to quit.
 
@@ -118,13 +116,13 @@ Try out tracking to see if you got a good template. Press 'q' to quit.
 
     .. code-block:: sh
 
-        ./apps/orb_track --track_directory my_textured_plane
+        ./apps/orb_track.py --track_directory my_textured_plane
 
 .. toggle:: ROS
 
     .. code-block:: sh
 
-        rosrun object_recognition_capture orb_track --track_directory my_textured_plane
+        rosrun object_recognition_core orb_track.py --track_directory my_textured_plane
 
 capture
 -------
@@ -166,7 +164,7 @@ If you don't have a pattern and use the dot pattern, ommit the ``-i`` option bel
 
     .. code-block:: sh
 
-        rosrun object_recognition_capture capture -i my_textured_plane --seg_z_min 0.01 -o silk.bag --preview
+        rosrun object_recognition_core capture -i my_textured_plane --seg_z_min 0.01 -o silk.bag --preview
 
 You should see an popup image similar to the following:
 
@@ -193,11 +191,11 @@ Press 'q' to quit early.
 
     .. code-block:: sh
 
-        rosrun object_recognition_capture capture -i my_textured_plane --seg_z_min 0.01 -o silk.bag
+        rosrun object_recognition_core capture -i my_textured_plane --seg_z_min 0.01 -o silk.bag
 
 Remember to query the program for help if you are lost:
 
-.. program-output:: ../../apps/capture --help
+.. program-output:: apps/capture --help
    :in_srcdir:
    :until: Scheduler Options:
 
@@ -209,7 +207,7 @@ these bags as seperate "sessions" of the same object.
 
 There is a convenience script for this called ``concat.py``
 
-.. program-output:: ../../apps/bagscripts/concat.py --help
+.. program-output:: apps/bagscripts/concat.py --help
     :in_srcdir:
 
 upload
@@ -234,7 +232,7 @@ Now that the bag is uploaded, into the database, you can see it in the db by bro
 
 command line interface
 ++++++++++++++++++++++
-.. program-output:: ../../apps/upload --help
+.. program-output:: apps/upload --help
    :in_srcdir:
    :until: Scheduler Options:
 
