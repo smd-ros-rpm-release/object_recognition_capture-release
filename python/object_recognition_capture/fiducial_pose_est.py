@@ -6,8 +6,7 @@ class OpposingDotPoseEstimator(ecto.BlackBox):
     '''Estimates the pose of a fiducial that has a black on white pattern and a white on black pattern.
     TODO support other configurations...
     '''
-    @staticmethod
-    def declare_cells(p):
+    def declare_cells(self, p):
         #TODO parameterize the quantizer
         #abuse saturated Arithmetics http://opencv.itseez.com/modules/core/doc/intro.html?highlight=saturated.
         cells = {'gray_image': ecto.Passthrough('gray Input'),
@@ -39,20 +38,19 @@ class OpposingDotPoseEstimator(ecto.BlackBox):
                                                  rows=p.rows, cols=p.cols)
         cells['circle_drawer2'] = calib.PatternDrawer('Circle Draw',
                                                  rows=p.rows, cols=p.cols)
+        cells['pose_draw'] = calib.PoseDrawer('Pose Draw')
         cells['fps'] = highgui.FPSDrawer()
 
         return cells
  
-    @staticmethod
-    def declare_direct_params(p):
+    def declare_direct_params(self, p):
         p.declare('rows', 'Number of rows in the pattern.', 11)
         p.declare('cols', 'Number of cols in the pattern.', 7)
         p.declare('pattern_type', 'Type of pattern', calib.ASYMMETRIC_CIRCLES_GRID)
         p.declare('square_size', 'The pattern spacing', 0.1)
         p.declare('debug', 'Debug the detector.', True)
 
-    @staticmethod
-    def declare_forwards(_p):
+    def declare_forwards(self, _p):
         #inputs
         i = {'gray_image': [Forward('in','image')],
              'rgb_image': [Forward('in','color_image')],
@@ -77,10 +75,14 @@ class OpposingDotPoseEstimator(ecto.BlackBox):
                 ]
         if p.debug:
             graph += [self.rgb_image[:] >> self.circle_drawer['input'],
+                      self.circle_drawer2[:] >> self.pose_draw['image'],
+                      self.pose_calc['R', 'T'] >> self.pose_draw['R', 'T'],
                       self.circle_drawer[:] >> self.circle_drawer2['input'],
                       self.cd_bw['out', 'found'] >> self.circle_drawer['points', 'found'],
                       self.cd_wb['out', 'found'] >> self.circle_drawer2['points', 'found'],
-                      self.circle_drawer2[:] >> self.fps[:]
+                      self.gather['found'] >> self.pose_draw['trigger'],
+                      self.camera_info[:] >> self.pose_draw['K'],
+                      self.pose_draw['output'] >> self.fps[:],
 #                      self.quantizer[:] >> highgui.imshow(name='quantized')[:],
              ]
         return graph
