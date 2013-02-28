@@ -51,7 +51,7 @@ class TemplateLoader(ecto.BlackBox):
                 'descriptors': BlackBoxCellInfo(MatReader, {'filename': '%s/descriptors.yaml' % p.directory}),
                 'R': BlackBoxCellInfo(MatReader, {'filename': '%s/R.yaml' % p.directory}),
                 'T': BlackBoxCellInfo(MatReader, {'filename': '%s/T.yaml' % p.directory}),
-                'image': BlackBoxCellInfo(imread, {'image_file=': '%s/train.png' % p.directory})}
+                'image': BlackBoxCellInfo(imread, {'image_file': '%s/train.png' % p.directory})}
 
     @classmethod
     def declare_direct_params(cls, p):
@@ -132,10 +132,8 @@ class OrbPoseEstimator(ecto.BlackBox):
         #3d estimation
         pose_estimation = self.pose_estimation
         graph += [matcher['matches'] >> pose_estimation['matches'],
-                  orb['points'] >> pose_estimation['test_2d'],
-                  train['points'] >> pose_estimation['train_2d'],
-                  orb['points3d'] >> pose_estimation['test_3d'],
-                  train['points3d'] >> pose_estimation['train_3d'],
+                  orb['points', 'points3d'] >> pose_estimation['test_2d', 'test_3d'],
+                  train['points', 'points3d'] >> pose_estimation['train_2d', 'train_3d']
                   ]
 
         if self.show_matches:
