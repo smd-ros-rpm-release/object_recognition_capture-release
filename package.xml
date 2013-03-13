@@ -1,6 +1,6 @@
 <package>
   <name>object_recognition_capture</name>
-  <version>0.2.20</version>
+  <version>0.2.21</version>
   <description>Capture is a set of tools to capture objects in 3D and perform odometry</description>
   <author email="erublee@willowgarage.com">Ethan Rublee</author>
   <maintainer email="vrabaud@willowgarage.com">Vincent Rabaud</maintainer>
@@ -20,6 +20,7 @@
   <run_depend>ecto_image_pipeline</run_depend>
   <run_depend>ecto_opencv</run_depend>
   <run_depend>ecto_openni</run_depend>
+  <run_depend>ecto_ros</run_depend>
   <run_depend>object_recognition_core</run_depend>
 
   <buildtool_depend>catkin</buildtool_depend>
