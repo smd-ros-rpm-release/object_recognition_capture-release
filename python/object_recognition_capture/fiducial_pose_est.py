@@ -6,12 +6,13 @@ class OpposingDotPoseEstimator(ecto.BlackBox):
     '''Estimates the pose of a fiducial that has a black on white pattern and a white on black pattern.
     TODO support other configurations...
     '''
-    def declare_cells(self, p):
+    @staticmethod
+    def declare_cells(p):
         #TODO parameterize the quantizer
         #abuse saturated Arithmetics http://opencv.itseez.com/modules/core/doc/intro.html?highlight=saturated.
         cells = {'gray_image': ecto.Passthrough('gray Input'),
                 'rgb_image': ecto.Passthrough('rgb Input'),
-                'camera_info': ecto.Passthrough('K'),
+                'camera_info': ecto.Passthrough('K_image'),
                 'gather': calib.GatherPoints("gather", N=2),
                 'quantizer': imgproc.Quantize('Quantizer', alpha=1, beta=0),
                 'invert': imgproc.BitwiseNot()}
@@ -42,18 +43,20 @@ class OpposingDotPoseEstimator(ecto.BlackBox):
 
         return cells
  
-    def declare_direct_params(self, p):
+    @staticmethod
+    def declare_direct_params(p):
         p.declare('rows', 'Number of rows in the pattern.', 11)
         p.declare('cols', 'Number of cols in the pattern.', 7)
         p.declare('pattern_type', 'Type of pattern', calib.ASYMMETRIC_CIRCLES_GRID)
         p.declare('square_size', 'The pattern spacing', 0.1)
         p.declare('debug', 'Debug the detector.', True)
 
-    def declare_forwards(self, _p):
+    @staticmethod
+    def declare_forwards(_p):
         #inputs
         i = {'gray_image': [Forward('in','image')],
              'rgb_image': [Forward('in','color_image')],
-             'camera_info': [Forward('in','K')]}
+             'camera_info': [Forward('in','K_image')]}
 
         #outputs
         o = {'pose_calc': [Forward('R'), Forward('T')],
