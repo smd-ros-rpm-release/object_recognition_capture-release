@@ -1,12 +1,12 @@
 <package>
   <name>object_recognition_capture</name>
-  <version>0.2.22</version>
+  <version>0.3.0</version>
   <description>Capture is a set of tools to capture objects in 3D and perform odometry</description>
   <author email="erublee@willowgarage.com">Ethan Rublee</author>
   <maintainer email="vincent.rabaud@gmail.com">Vincent Rabaud</maintainer>
   <license>BSD</license>
 
-  <url>http://ecto.willowgarage.com/recognition</url>
+  <url>http://wg-perception.github.io/capture</url>
 
   <build_depend>boost</build_depend>
   <build_depend>ecto</build_depend>
